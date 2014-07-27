@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <hr>
+    <% if (rss) { %>
+	    <h2><%= rss.title %></h2>
+      <p><%= rss.guid %></p>
+      <a href="<%= rss.link %>">link</a>
+      <p><%= rss.published %></p>
+      <p><%= rss.updated %></p>
+      <p><%= rss.summary %></p>
+      <p><%= rss.author %></p>
+      <%- rss.description %>
+	<% } %>
+  </body>
+  <script type="text/javascript">
+  </script>
+</html>
