@@ -1,4 +1,4 @@
-var RssItem = require('../models/site.js');
+var RssItem = require('../dao/item.js');
 
 
 
@@ -18,4 +18,9 @@ exports.index = function(req, res){
 		}
 	});
   //res.render('index', { title: 'Express' });
+};
+
+exports.reg = function(req, res){
+	
+  res.render('reg', { title: 'Express' });
 };
