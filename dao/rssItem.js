@@ -30,7 +30,7 @@ RssItem.prototype.save = function(callback) {
 	      return callback(err);//错误，返回 err 信息
 	    }
 	    //读取 users 集合
-	    db.collection('rssitems', function (err, collection) {
+	    db.collection('rssitemTable', function (err, collection) {
 	      if (err) {
 	        mongodb.close();
 	        return callback(err);//错误，返回 err 信息
@@ -43,7 +43,7 @@ RssItem.prototype.save = function(callback) {
 	        if (err) {
 	          return callback(err);//错误，返回 err 信息
 	        }
-	        //callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
+	        callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
 	      });
 	    });
 	});
@@ -56,7 +56,7 @@ RssItem.prototype.get = function(authorName,callback) {
 	      return callback(err);//错误，返回 err 信息
 	    }
 	    //读取 users 集合
-	    db.collection('rssitems', function (err, collection) {
+	    db.collection('rssitemTable', function (err, collection) {
 	      if (err) {
 	        mongodb.close();
 	        return callback(err);//错误，返回 err 信息

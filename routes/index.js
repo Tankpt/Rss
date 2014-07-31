@@ -1,4 +1,5 @@
-var RssItem = require('../dao/item.js'),
+var RssItem = require('../dao/rssItem.js'),
+	Rss = require('../dao/rss.js'),
 	User = require('../dao/user.js');
 
 function checkLogin(req, res, next) {
@@ -79,8 +80,9 @@ module.exports = function(app) {
 	      });
 	    });
 	});
-/*********************reg end************************/
 
+
+/*********************login start***************************/
 	app.get('/login', checkNotLogin);
 	app.get('/login', function(req, res){
 	  	res.render('login', { 
@@ -108,11 +110,49 @@ module.exports = function(app) {
 	    });
 	});
 
+
 /*********************logout start***************************/
+	app.get('/logout', checkLogin);
 	app.get('/logout', function (req, res) {
 	  req.session.user = null;
 	  req.flash('success', '登出成功!');
 	  res.redirect('/');//登出成功后跳转到主页
 	});
-/*********************logout out***************************/	
+
+/*********************addRss start***************************/
+	app.get('/addRss', checkLogin);
+	app.get('/addRss', function (req, res) {
+	  	res.render('addRss', { 
+			title: 'addRss page' ,
+			user: req.session.user,
+			success: req.flash('success').toString(),
+			error: req.flash('error').toString()
+		});
+	});
+
+	app.post('/addRss', checkLogin);
+	app.post('/addRss', function (req, res) {
+		var rssUrl = req.body.rssUrl;
+		var newRss = new Rss({
+			userId : req.session.user._id,
+			rssUrl : rssUrl,
+			rssName : ''
+		});
+		Rss.prototype.get(rssUrl,function(err,rss){
+			if (rss) {
+				req.flash('error', 'rss已经存在!');
+	        	return res.redirect('/addRss');
+			}
+			newRss.save(function(err,rss){
+				 if (err) {
+		          req.flash('error', err);
+		          return res.redirect('/reg');
+		        }
+		        req.flash('success', '添加成功!请稍后查看');
+		       	res.redirect('/addRss');
+			});
+		});
+	});
+
+
 };

@@ -1,66 +1,66 @@
-// var mongodb = require('./db'); 
+var mongodb = require('./db'); 
 
-// function User (user) {
-// 	this.name = user.name;
-// 	this.password = user.password;
-// 	this.email  = user.email;
-// }
+function Rss (rss) {
+	this.userId  = rss.userId;
+	this.rssUrl = rss.rssUrl;
+	this.rssName = rss.rssName;
+}
 
-// module.exports = User;
+module.exports = Rss;
 
-// User.prototype.save = function(callback) {
+Rss.prototype.save = function(callback) {
 		
-// 	var userInfo = {
-// 		name : this.name,
-// 		password : this.password,
-// 		email : this.email
-// 	};	
-// 	mongodb.open(function(err,db){
-// 		if (err) {
-// 	      return callback(err);//错误，返回 err 信息
-// 	    }
-// 	    //读取 userTable 集合
-// 	    db.collection('userTable', function (err, collection) {
-// 	      if (err) {
-// 	        mongodb.close();
-// 	        return callback(err);//错误，返回 err 信息
-// 	      }
-// 	      //将用户数据插入 users 集合
-// 	      collection.insert(userInfo, {
-// 	        safe: true
-// 	      }, function (err, user) {
-// 	        mongodb.close();
-// 	        if (err) {
-// 	          return callback(err);//错误，返回 err 信息
-// 	        }
-// 	        //callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
-// 	      });
-// 	    });
-// 	});
-// };
+	var rssInfo = {
+		userId : this.userId,
+		rssUrl : this.rssUrl,
+		rssName : this.rssName
+	};	
+	mongodb.open(function(err,db){
+		if (err) {
+	      return callback(err);//错误，返回 err 信息
+	    }
+	    //读取 rssTable 集合
+	    db.collection('rssTable', function (err, collection) {
+	      if (err) {
+	        mongodb.close();
+	        return callback(err);//错误，返回 err 信息
+	      }
+	      //将用户数据插入 rssTable 集合
+	      collection.insert(rssInfo, {
+	        safe: true
+	      }, function (err, rss) {
+	        mongodb.close();
+	        if (err) {
+	          return callback(err);//错误，返回 err 信息
+	        }
+	        callback(null, rss[0]);//成功！err 为 null，并返回存储后的用户文档
+	      });
+	    });
+	});
+};
 
-// User.prototype.get = function(userName,callback) {
+Rss.prototype.get = function(rssUrl,callback) {
 
-// 	mongodb.open(function(err,db){
-// 		if (err) {
-// 	      return callback(err);//错误，返回 err 信息
-// 	    }
-// 	    //读取 users 集合
-// 	    db.collection('userTable', function (err, collection) {
-// 	      if (err) {
-// 	        mongodb.close();
-// 	        return callback(err);//错误，返回 err 信息
-// 	      }
-// 	      //将用户数据插入 users 集合
-// 	      collection.findOne({
-// 	        name: userName
-// 	      }, function (err, user) {
-// 	        mongodb.close();
-// 	        if (err) {
-// 	          return callback(err);//失败！返回 err 信息
-// 	        }
-// 	        callback(null, user);//成功！返回查询的用户信息
-// 	      });
-// 	    });
-// 	});
-// };/routes/user
+	mongodb.open(function(err,db){
+		if (err) {
+	      return callback(err);//错误，返回 err 信息
+	    }
+	    //读取 rssTable 集合
+	    db.collection('rssTable', function (err, collection) {
+	      if (err) {
+	        mongodb.close();
+	        return callback(err);//错误，返回 err 信息
+	      }
+	      //将用户数据插入 rssTable 集合
+	      collection.findOne({
+	        rssUrl: rssUrl
+	      }, function (err, rss) {
+	        mongodb.close();
+	        if (err) {
+	          return callback(err);//失败！返回 err 信息
+	        }
+	        callback(null, rss);//成功！返回查询的用户信息
+	      });
+	    });
+	});
+};
