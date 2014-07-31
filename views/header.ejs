@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Blog</title>
+</head>
+<body>
+<% if (success) { %>
+	  <div><%= success %></div>
+	<% } %>
+	<% if (error) { %>
+	  <div><%= error %> </div>
+	<% } %>
+<% if (user) { %>
+  <div>hello &nbsp;<%= user.name %></div>
+  <div><a href="/logout">点击登出</a></div>
+<% } else { %>
+	<div>mu you login</div>
+	<a href="/reg">点击注册</a> <br>
+    <a href="/login">点击登陆</a>
+<% } %>
+<h1><%= title %></h1>

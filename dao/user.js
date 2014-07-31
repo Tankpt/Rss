@@ -33,7 +33,7 @@ User.prototype.save = function(callback) {
 	        if (err) {
 	          return callback(err);//错误，返回 err 信息
 	        }
-	        //callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
+	        callback(null, user[0]);//成功！err 为 null，并返回存储后的用户文档
 	      });
 	    });
 	});
