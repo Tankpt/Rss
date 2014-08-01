@@ -8,15 +8,21 @@
     <% } %>
 
     <hr>
-    <% if (rssItems) { %>
-	    <h2><%= rssItems.title %></h2>
-      <p><%= rssItems.guid %></p>
-      <a href="<%= rssItems.link %>">link</a>
-      <p><%= rssItems.published %></p>
-      <p><%= rssItems.updated %></p>
-      <p><%= rssItems.summary %></p>
-      <p><%= rssItems.author %></p>
-      <%- rssItems.description %>
+    <% if (rssItems ) { %>
+        <% rssItems.forEach(function(_item,_index){ %>
+          <% if(_index<20){%>
+            <h2><%= _item.title %></h2>
+            <p><%= _item.guid %></p>
+            <a href="<%= _item.link %>" target="_blank">link</a>
+            <p><%= _item.published %></p>
+            <p><%= _item.updated %></p>
+            <p><%= _item.summary %></p>
+            <% if(_item.author) {%>
+              <p><%= _item.author %></p>
+            <% }%>
+            <p><% _item.description %><p>
+          <% }%>
+        <% }) %>
 	<% } %>
 
     

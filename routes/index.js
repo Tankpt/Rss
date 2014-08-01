@@ -1,6 +1,7 @@
 var RssItem = require('../dao/rssItem.js'),
 	Rss = require('../dao/rss.js'),
-	User = require('../dao/user.js');
+	User = require('../dao/user.js'),
+	rssSearch = require('../modules/rss/rssSearch.js');
 
 function checkLogin(req, res, next) {
   if (!req.session.user) {
@@ -23,34 +24,48 @@ module.exports = function(app) {
 	app.get('/', checkLogin);
 	app.get('/', function(req, res){
 
-		var _query={},_rsses,_rssItems;
+		var _query={},
+			_rsses,
+			_rssItems;
+
 		//get user relation rssurl
 		if(req.session.user){
 			_query.userName = req.session.user.name;
 			Rss.prototype.get(_query,function(err,rsses){
 				_rsses = rsses;
-
-				RssItem.prototype.get('阮一峰',function(err,rssItems){
-					if(rssItems){
-						console.log("rss");
-						_rssItems = rssItems;
-					}else{
-						console.log("not exits");
-					}
+				if(!!rsses[0]){
+					var _tmpUrl = rsses[0].rssUrl;
+					RssItem.prototype.get({
+						rssUrl : _tmpUrl
+					},function(err,rssItems){
+						if(rssItems.length!=0){
+							console.log("rss");
+							_rssItems = rssItems;
+						}else{
+							console.log("not exits");
+						}
+						res.render('index', { 
+							title: 'Hello Rss page' ,
+							user: req.session.user,
+							rsses: _rsses,
+							rssItems : _rssItems,
+							success: req.flash('success').toString(),
+							error: req.flash('error').toString()
+						});
+					});
+				}else{
 					res.render('index', { 
 						title: 'Hello Rss page' ,
 						user: req.session.user,
-						rsses: _rsses,
-						rssItems : _rssItems,
+						rsses: '',
+						rssItems : '',
 						success: req.flash('success').toString(),
 						error: req.flash('error').toString()
 					});
-				});
+				}
+				
 			});
-		}
-		
-
-		
+		}	
 		
 	});
 
@@ -151,7 +166,8 @@ module.exports = function(app) {
 		var newRss = new Rss({
 			userName : req.session.user.name,
 			rssUrl : rssUrl,
-			rssName : ''
+			rssName : '',
+			update : ''
 		});
 		var _query = {
 			userName : newRss.userName,
@@ -167,6 +183,7 @@ module.exports = function(app) {
 		          req.flash('error', err);
 		          return res.redirect('/reg');
 		        }
+		        rssSearch(rssUrl,req.session.user.name);
 		        req.flash('success', '添加成功!请稍后查看');
 		       	res.redirect('/addRss');
 			});
