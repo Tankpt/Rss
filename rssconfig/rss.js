@@ -3,7 +3,7 @@ var request = require('request')
     , rssSite = require('./rssSite.json')  
     , Iconv = require('iconv').Iconv;
 
-var RssItem = require('../models/site.js');
+var RssItem = require('../dao/rssItem.js');
 
 var channels = rssSite.channel; 
 

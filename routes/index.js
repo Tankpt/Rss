@@ -20,23 +20,38 @@ function checkNotLogin(req, res, next) {
 
 module.exports = function(app) {
 
+	app.get('/', checkLogin);
 	app.get('/', function(req, res){
 
-		RssItem.prototype.get('阮一峰',function(err,rss){
-			if(rss){
-				console.log("rss");
-				
-			}else{
-				console.log("not exits");
-			}
-			res.render('index', { 
-				title: 'Hello Rss page' ,
-				user: req.session.user,
-				rss: rss,
-				success: req.flash('success').toString(),
-  				error: req.flash('error').toString()
+		var _query={},_rsses,_rssItems;
+		//get user relation rssurl
+		if(req.session.user){
+			_query.userName = req.session.user.name;
+			Rss.prototype.get(_query,function(err,rsses){
+				_rsses = rsses;
+
+				RssItem.prototype.get('阮一峰',function(err,rssItems){
+					if(rssItems){
+						console.log("rss");
+						_rssItems = rssItems;
+					}else{
+						console.log("not exits");
+					}
+					res.render('index', { 
+						title: 'Hello Rss page' ,
+						user: req.session.user,
+						rsses: _rsses,
+						rssItems : _rssItems,
+						success: req.flash('success').toString(),
+						error: req.flash('error').toString()
+					});
+				});
 			});
-		});
+		}
+		
+
+		
+		
 	});
 
 /*********************reg start***************************/
@@ -134,12 +149,16 @@ module.exports = function(app) {
 	app.post('/addRss', function (req, res) {
 		var rssUrl = req.body.rssUrl;
 		var newRss = new Rss({
-			userId : req.session.user._id,
+			userName : req.session.user.name,
 			rssUrl : rssUrl,
 			rssName : ''
 		});
-		Rss.prototype.get(rssUrl,function(err,rss){
-			if (rss) {
+		var _query = {
+			userName : newRss.userName,
+			rssUrl : rssUrl
+		};
+		Rss.prototype.get(_query,function(err,rsses){
+			if (rsses.length!=0) {
 				req.flash('error', 'rss已经存在!');
 	        	return res.redirect('/addRss');
 			}

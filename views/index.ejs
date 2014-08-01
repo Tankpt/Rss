@@ -1,16 +1,24 @@
 <%- include header %>
 
+    <hr>
+    <% if (rsses) { %>
+          <% rsses.forEach(function(rss){ %>
+            <div><%= rss.rssUrl %></div>
+          <% }) %>
+    <% } %>
 
     <hr>
-    <% if (rss) { %>
-	    <h2><%= rss.title %></h2>
-      <p><%= rss.guid %></p>
-      <a href="<%= rss.link %>">link</a>
-      <p><%= rss.published %></p>
-      <p><%= rss.updated %></p>
-      <p><%= rss.summary %></p>
-      <p><%= rss.author %></p>
-      <%- rss.description %>
+    <% if (rssItems) { %>
+	    <h2><%= rssItems.title %></h2>
+      <p><%= rssItems.guid %></p>
+      <a href="<%= rssItems.link %>">link</a>
+      <p><%= rssItems.published %></p>
+      <p><%= rssItems.updated %></p>
+      <p><%= rssItems.summary %></p>
+      <p><%= rssItems.author %></p>
+      <%- rssItems.description %>
 	<% } %>
+
+    
 
 <%- include footer %>
