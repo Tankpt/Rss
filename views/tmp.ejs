@@ -1,0 +1,25 @@
+<% if (rssItems ) { %>
+<% rssItems.forEach(function(_item,_index){ %>
+<% if(_index<20){%>
+<h2><%= _item.title %></h2>
+<p><%= _item.guid %></p>
+<a href="<%= _item.link %>" target="_blank">link</a>
+<p><%= _item.published %></p>
+<p><%= _item.updated %></p>
+<p><%= _item.summary %></p>
+<% if(_item.author) {%>
+<p><%= _item.author %></p>
+<% }%>
+<p><% _item.description %><p>
+    <% }%>
+    <% }) %>
+<% } %>
+
+
+<form method="post">
+    用户名：  <input type="text" name="name"/><br />
+    密码：    <input type="password" name="password"/><br />
+    确认密码：<input type="password" name="password-repeat"/><br />
+    邮箱：    <input type="email" name="email"/><br />
+    <input type="submit" value="注册"/>
+</form>

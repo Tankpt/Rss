@@ -1,29 +1,49 @@
 <%- include header %>
 
     <hr>
-    <% if (rsses) { %>
-          <% rsses.forEach(function(rss){ %>
-            <div><%= rss.rssUrl %></div>
-          <% }) %>
-    <% } %>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="list-group">
+                    <% if (rsses) { %>
+                        <% rsses.forEach(function(rss){ %>
+                        <a href="#" class="list-group-item "><%= rss.rssUrl %></a>
+                        <% }) %>
+                    <% } %>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="rssItemLists">
+                    <% if (rssItems ) { %>
+                        <% rssItems.forEach(function(_item,_index){ %>
+                            <% if(_index<5){%>
+                            <div class="list-group">
+                                <a href="#" class="list-group-item">
+                                    <h4 class="list-group-item-heading"><%= _item.title %></h4>
+                                    <p class="list-group-item-text"><%= _item.summary %></p>
+                                </a>
+                            </div>
+                            <% }%>
+                        <% }) %>
+                    <% } %>
+                </div>
+                <div class="pageList">
+                    <ul class="pagination">
+                        <li><a href="#">&laquo;</a></li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li><a href="#">&raquo;</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
     <hr>
-    <% if (rssItems ) { %>
-        <% rssItems.forEach(function(_item,_index){ %>
-          <% if(_index<20){%>
-            <h2><%= _item.title %></h2>
-            <p><%= _item.guid %></p>
-            <a href="<%= _item.link %>" target="_blank">link</a>
-            <p><%= _item.published %></p>
-            <p><%= _item.updated %></p>
-            <p><%= _item.summary %></p>
-            <% if(_item.author) {%>
-              <p><%= _item.author %></p>
-            <% }%>
-            <p><% _item.description %><p>
-          <% }%>
-        <% }) %>
-	<% } %>
+
 
     
 
