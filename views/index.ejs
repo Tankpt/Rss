@@ -8,7 +8,9 @@
                 <div class="list-group">
                     <% if (rsses) { %>
                         <% rsses.forEach(function(rss){ %>
-                        <a href="#" class="list-group-item "><%= rss.rssUrl %></a>
+                            <% if(rss.rssName) {%>
+                                <a href="/?url=<%= rss.rssUrl %>" class="list-group-item" data-id="<%= rss.rssUrl %>"><%= rss.rssName %></a>
+                            <%}%>
                         <% }) %>
                     <% } %>
                 </div>
@@ -17,27 +19,28 @@
                 <div class="rssItemLists">
                     <% if (rssItems ) { %>
                         <% rssItems.forEach(function(_item,_index){ %>
-                            <% if(_index<5){%>
                             <div class="list-group">
                                 <a href="#" class="list-group-item">
                                     <h4 class="list-group-item-heading"><%= _item.title %></h4>
                                     <p class="list-group-item-text"><%= _item.summary %></p>
                                 </a>
                             </div>
-                            <% }%>
                         <% }) %>
                     <% } %>
                 </div>
                 <div class="pageList">
-                    <ul class="pagination">
-                        <li><a href="#">&laquo;</a></li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">&raquo;</a></li>
-                    </ul>
+                    <% if (pagePation ) { %>
+                        <ul class="pagination">
+                            <li><a href="#">&laquo;</a></li>
+                            <% for(var i= 1,len=pagePation.psize; i<=len; i++) {%>
+                                <li><a href="/?p=<%= i %>&&url=<%= pagePation.url %>"
+                                            <% if (pagePation.p==i) {%>
+                                                class="active"
+                                            <% } %> ><%= i %></a></li>
+                            <% } %>
+                            <li><a href="#">&raquo;</a></li>
+                        </ul>
+                    <% } %>
                 </div>
             </div>
         </div>

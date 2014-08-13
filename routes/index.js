@@ -3,6 +3,8 @@ var RssItem = require('../dao/rssItem.js'),
 	User = require('../dao/user.js'),
 	rssSearch = require('../modules/rss/rssSearch.js');
 
+var PAGESIZE = 5;
+
 function checkLogin(req, res, next) {
   if (!req.session.user) {
     req.flash('error', '未登录!'); 
@@ -27,27 +29,35 @@ module.exports = function(app) {
 		var _query={},
 			_rsses,
 			_rssItems;
-
 		//get user relation rssurl
 		if(req.session.user){
 			_query.userName = req.session.user.name;
+
 			Rss.prototype.get(_query,function(err,rsses){
 				_rsses = rsses;
-				if(!!rsses[0]){
-					var _tmpUrl = rsses[0].rssUrl;
+				if(_rsses.length>0){
+                    var _tmpUrl = req.query.url || rsses[0].rssUrl;
 					RssItem.prototype.get({
 						rssUrl : _tmpUrl
 					},function(err,rssItems){
+                        var _pageInfo = {};
 						if(rssItems.length!=0){
-							console.log("rss");
 							_rssItems = rssItems;
+                            _pageInfo ={
+                                psize : Math.ceil(rssItems.length/PAGESIZE),
+                                p : req.query.p || 1 ,
+                                url : _tmpUrl
+                            };
+                            _rssItems = _rssItems.slice((_pageInfo.p-1)*PAGESIZE,_pageInfo.p*PAGESIZE);
 						}else{
 							console.log("not exits");
 						}
+
 						res.render('index', { 
 							title: 'Hello Rss page' ,
 							user: req.session.user,
 							rsses: _rsses,
+                            pagePation : _pageInfo,
 							rssItems : _rssItems,
 							success: req.flash('success').toString(),
 							error: req.flash('error').toString()
