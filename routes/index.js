@@ -1,7 +1,8 @@
 var RssItem = require('../dao/rssItem.js'),
 	Rss = require('../dao/rss.js'),
 	User = require('../dao/user.js'),
-	rssSearch = require('../modules/rss/rssSearch.js');
+	rssSearch = require('../modules/rss/rssSearch.js'),
+    ObjectID = require('mongodb').ObjectID;
 
 var PAGESIZE = 5;
 
@@ -200,5 +201,41 @@ module.exports = function(app) {
 		});
 	});
 
+/*********************artcle start***************************/
+    app.get('/article', checkLogin);
+    app.get('/article', function(req, res){
+
+        if(req.session.user){
+            var _aid =  req.query.aid;
+            if(!!_aid){
+                RssItem.prototype.get({
+                    _id :  new ObjectID(_aid)
+                },function(err,rssItems){
+                    var _rssItem ;
+                    if(rssItems.length!=0){
+                        _rssItem = rssItems[0];
+                    }else{
+                        console.log("not exits");
+                    }
+
+                    res.render('article', {
+                        title: 'Hello article page' ,
+                        user: req.session.user,
+                        rssItem : _rssItem,
+                        success: req.flash('success').toString(),
+                        error: req.flash('error').toString()
+                    });
+                });
+            }else{
+                res.render('article', {
+                    title: 'Hello Rss page' ,
+                    user: req.session.user,
+                    rssItem : "",
+                    success: req.flash('success').toString(),
+                    error: req.flash('error').toString()
+                });
+            }
+        }
+    });
 
 };

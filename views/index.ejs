@@ -20,7 +20,7 @@
                     <% if (rssItems ) { %>
                         <% rssItems.forEach(function(_item,_index){ %>
                             <div class="list-group">
-                                <a href="#" class="list-group-item">
+                                <a href="/article?aid=<%= _item._id %>" class="list-group-item">
                                     <h4 class="list-group-item-heading"><%= _item.title %></h4>
                                     <p class="list-group-item-text"><%= _item.summary %></p>
                                 </a>
