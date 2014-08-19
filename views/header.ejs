@@ -4,6 +4,15 @@
 <meta charset="UTF-8" />
 <title>Blog</title>
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<style>
+
+    .delete{
+        display: block;
+        width: 14px;
+        height: 16px;
+        cursor: pointer;
+    }
+</style>
 </head>
 <body>
 <nav class="navbar navbar-default " role="navigation">
@@ -41,5 +50,3 @@
 	<% if (error) { %>
 	  <div><%= error %> </div>
 	<% } %>
-
-<h1><%= title %></h1>

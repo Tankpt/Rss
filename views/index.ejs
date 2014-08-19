@@ -9,7 +9,10 @@
                     <% if (rsses) { %>
                         <% rsses.forEach(function(rss){ %>
                             <% if(rss.rssName) {%>
-                                <a href="/?url=<%= rss.rssUrl %>" class="list-group-item" data-id="<%= rss.rssUrl %>"><%= rss.rssName %></a>
+                                <li class="list-group-item">
+                                    <a href="/?url=<%= rss.rssUrl %>"  data-id="<%= rss.rssUrl %>"><%= rss.rssName %></a>
+                                    <a class="j-delete delete pull-right"><span class="glyphicon glyphicon-remove">　</span></a>
+                                </li>
                             <%}%>
                         <% }) %>
                     <% } %>
@@ -48,6 +51,25 @@
     <hr>
 
 
-    
+
 
 <%- include footer %>
+<script>
+    $(".j-delete").on("click",function(){
+        var  _tmp =$(this).prev()[0];
+        console.log(_tmp);
+        $.ajax({
+            type: "POST",
+            url: "/deleteRss",
+            data: { url: _tmp.dataset.id || '' }
+        }).done(function( msg ) {
+            if(msg=="true"){
+                alert("删除成功");
+                window.location.reload();
+            }else{
+                alert("删除失败");
+            }
+        });
+    });
+</script>
+</html>

@@ -92,3 +92,27 @@ Rss.prototype.update = function(_query,_obj,callback){
 	    });
 	});
 };
+
+Rss.prototype.remove = function(_query,callback){
+    mongodb.open(function(err,db){
+        if (err) {
+            return callback(err);//错误，返回 err 信息
+        }
+        //读取 rssTable 集合
+        db.collection('rssTable', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);//错误，返回 err 信息
+            }
+            collection.remove(_query, {
+                w: 1
+            }, function (err) {
+                mongodb.close();
+                if (err) {
+                    return callback(err,false);
+                }
+                callback(null,true);
+            });
+        });
+    });
+};

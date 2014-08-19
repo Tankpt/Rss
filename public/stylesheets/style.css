@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+.delete{
+    display: block;
+    width: 14px;
+    height: 16px;
+}

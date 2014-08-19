@@ -238,4 +238,25 @@ module.exports = function(app) {
         }
     });
 
+/*********************deleteRss start***************************/
+    app.post('/deleteRss', checkLogin);
+    app.post('/deleteRss', function(req, res){
+
+        var _query = {
+            rssUrl : req.body.url,
+            userName : req.session.user.name
+        };
+
+        res.writeHead(200, {"Content-Type": "text/plain"});
+        Rss.prototype.remove(_query,function(err,callback){
+            if(!!callback){
+                res.write("true");
+            }else{
+                res.write("fasle");
+            }
+            res.end();
+        });
+
+    });
+
 };
