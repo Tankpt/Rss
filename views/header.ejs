@@ -5,7 +5,6 @@
 <title>Blog</title>
 <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
 <style>
-
     .delete{
         display: block;
         width: 14px;
@@ -15,38 +14,28 @@
 </style>
 </head>
 <body>
-<nav class="navbar navbar-default " role="navigation">
-    <!-- We use the fluid option here to avoid overriding the fixed width of a normal container within the narrow content columns. -->
-    <div class="container-fluid">
+<header class="navbar navbar-default" id="top" role="banner">
+    <div class="container">
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-6">
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">MyRss</a>
+            <a href="/" class="navbar-brand">MyRss</a>
         </div>
-
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
-            <ul class="nav navbar-nav">
+        <nav class="navbar-collapse bs-navbar-collapse collapse" role="navigation" style="height: 1px;">
+            <ul class="nav navbar-nav navbar-right">
                 <% if (user) { %>
-                    <li><a>hello &nbsp;<%= user.name %></a>
-                    <li><a href="/logout">点击登出</a></li>
-                    <li><a href="/addRss">添加RSS源</a></li>
-                    <% } else { %>
-                    <li><a href="/reg">点击注册</a></li>
-                    <li><a href="/login">点击登陆</a></li>
+                <li><a><span class="glyphicon glyphicon-user"></span><%= user.name %></a>
+                <li><a href="/logout">点击登出</a></li>
+                <li><a href="/addRss">添加RSS源</a></li>
+                <% } else { %>
+                <li><a href="/reg">点击注册</a></li>
+                <li><a href="/login">点击登陆</a></li>
                 <% } %>
             </ul>
-        </div><!-- /.navbar-collapse -->
+        </nav>
     </div>
-</nav>
-
-
-<% if (success) { %>
-	  <div><%= success %></div>
-	<% } %>
-	<% if (error) { %>
-	  <div><%= error %> </div>
-	<% } %>
+</header>
